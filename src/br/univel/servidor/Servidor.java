@@ -21,7 +21,11 @@ import java.awt.Insets;
 import javax.swing.JTextArea;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
+/**
+ * Classe servidor de chat para recebimento e gerenciamento de mensagens e registros
+ * @author matt_
+ *
+ */
 public class Servidor extends JFrame implements ServicoRMI, Runnable{
 	
 	private Thread thread;

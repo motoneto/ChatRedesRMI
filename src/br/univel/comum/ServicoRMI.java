@@ -13,27 +13,39 @@ import java.rmi.RemoteException;
 public interface ServicoRMI extends Remote {
 
 	/**
-	 * Constante com o nome do serviÃ§o apenas para conveniÃªncia, evitar erros de
-	 * digitaÃ§Ã£o.
+	 * Constante com o nome do serviço apenas para conveniência, evitar erros de
+	 * digitação.
 	 */
 	public static final String NOME = "SERVICO_RMI";
 
 	/**
-	 * MÃ©todo que recebe o nome da pessoa e retorna uma saudaÃ§Ã£o.
+	 * Método que recebe o nome da pessoa e sua instancia de Cliente para registro no servidor.
 	 * 
-	 * Todo mÃ©todo de uma interface usada com RMI deve declarar que pode lanÃ§ar
+	 * Todo método de uma interface usada com RMI deve declarar que pode lançar
 	 * {@link java.rmi.RemoteException}.
 	 * 
 	 * @param nome
 	 *            Nome da pessoa.
-	 * @return SaudaÃ§Ã£o.
-	 * 
+	 * @param cliente
+	 * 			  Instância de ICliente
 	 * @throws RemoteException
 	 */
 	public void registrar(String nome, ICliente cliente) throws RemoteException;
 	
+	/**
+	 * Método para envio de Mensagem a todos os conectados com o serviço de Chat
+	 * @param remetente
+	 * @param mensagem
+	 * @throws RemoteException
+	 */
 	public void enviarMensagem(String remetente, String mensagem) throws RemoteException;
 	
+	/**
+	 * Método para remover um determinado cliente da listaOnline.
+	 * @param nome
+	 * @param cliente
+	 * @throws RemoteException
+	 */
 	public void sair(String nome, ICliente cliente) throws RemoteException;
 
 }

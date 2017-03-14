@@ -24,7 +24,11 @@ import javax.swing.SwingUtilities;
 
 import br.univel.comum.ICliente;
 import br.univel.comum.ServicoRMI;
-
+/**
+ * 
+ * @author matt_
+ * Classe de interface cliente para conexão de chat via rmi
+ */
 public class Cliente extends JFrame implements ICliente {
 	public Cliente() {
 
@@ -184,7 +188,14 @@ public class Cliente extends JFrame implements ICliente {
 		setSize(490, 310);
 		setVisible(true);
 	}
-
+	/**
+	 * 
+	 * @param porta
+	 * @param servidor
+	 * @return
+	 * 
+	 * método para iniciar o serviço rmi com o servidor informado pelo usuário.
+	 */
 	private ServicoRMI startRMI(int porta, String servidor) {
 		Registry registry;
 		ServicoRMI servico = null;
@@ -200,7 +211,9 @@ public class Cliente extends JFrame implements ICliente {
 		}
 		return servico;
 	}
-
+	/**
+	 * método de registro do usuário no servidor
+	 */
 	private void conectar() {
 
 		remetente = textFieldNome.getText();
@@ -220,7 +233,9 @@ public class Cliente extends JFrame implements ICliente {
 		btnConectar.setEnabled(false);
 		btnSair.setEnabled(true);
 	}
-
+	/**
+	 * método para finalizar registro do usuário no servidor
+	 */
 	private void desconectar() {
 		try {
 			servico.sair(remetente, this);
@@ -233,7 +248,9 @@ public class Cliente extends JFrame implements ICliente {
 			e.printStackTrace();
 		}
 	}
-
+    /**
+     * método para enviar mensagem a todos conectados com o chat.
+     */
 	private void enviarMensagem() {
 		try {
 			String mensagem = textFieldMensagem.getText();
