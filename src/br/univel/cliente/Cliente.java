@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.Date;
 import java.util.List;
 
@@ -20,16 +21,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 import br.univel.comum.ICliente;
 import br.univel.comum.ServicoRMI;
+
 /**
- * 
- * @author matt_
- * Classe de interface cliente para conexão de chat via rmi
+ *
+ * @author matt_ Classe de interface cliente para conexão de chat via rmi
  */
 public class Cliente extends JFrame implements ICliente {
+	private ICliente cliente;
+
 	public Cliente() {
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -188,13 +190,15 @@ public class Cliente extends JFrame implements ICliente {
 		setSize(490, 310);
 		setVisible(true);
 	}
+
 	/**
-	 * 
+	 *
 	 * @param porta
 	 * @param servidor
 	 * @return
-	 * 
-	 * método para iniciar o serviço rmi com o servidor informado pelo usuário.
+	 *
+	 * 		método para iniciar o serviço rmi com o servidor informado pelo
+	 *         usuário.
 	 */
 	private ServicoRMI startRMI(int porta, String servidor) {
 		Registry registry;
@@ -211,6 +215,7 @@ public class Cliente extends JFrame implements ICliente {
 		}
 		return servico;
 	}
+
 	/**
 	 * método de registro do usuário no servidor
 	 */
@@ -221,8 +226,10 @@ public class Cliente extends JFrame implements ICliente {
 		porta = Integer.parseInt(textFieldPorta.getText());
 
 		servico = startRMI(porta, server);
+
 		try {
-			servico.registrar(remetente, this);
+			cliente = (ICliente) UnicastRemoteObject.exportObject(Cliente.this, 0);
+			servico.registrar(remetente, cliente);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -233,6 +240,7 @@ public class Cliente extends JFrame implements ICliente {
 		btnConectar.setEnabled(false);
 		btnSair.setEnabled(true);
 	}
+
 	/**
 	 * método para finalizar registro do usuário no servidor
 	 */
@@ -248,9 +256,10 @@ public class Cliente extends JFrame implements ICliente {
 			e.printStackTrace();
 		}
 	}
-    /**
-     * método para enviar mensagem a todos conectados com o chat.
-     */
+
+	/**
+	 * método para enviar mensagem a todos conectados com o chat.
+	 */
 	private void enviarMensagem() {
 		try {
 			String mensagem = textFieldMensagem.getText();
@@ -261,7 +270,7 @@ public class Cliente extends JFrame implements ICliente {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -9023378386367829218L;
 	private JTextField textFieldServer;
@@ -293,8 +302,8 @@ public class Cliente extends JFrame implements ICliente {
 	public void atualizaLista(List<String> lista) throws RemoteException {
 
 		lista.forEach(e -> {
-			 textAreaLista.append(e);
-			System.out.println("LISTA ->> "+e);
+			textAreaLista.append(e);
+			System.out.println("LISTA ->> " + e);
 		});
 
 	}
