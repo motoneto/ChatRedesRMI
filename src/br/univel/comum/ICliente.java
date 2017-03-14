@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  */
 public interface ICliente extends Remote{
 	/**
-	 * Método para recebimento de Mensagens do servidor.
+	 * Método para recebimento de Mensagens do servidor. 
 	 * @param remetente
 	 * @param Mensagem
 	 * @throws RemoteException
